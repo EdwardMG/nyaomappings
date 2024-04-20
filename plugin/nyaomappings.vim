@@ -1,34 +1,43 @@
 fu! s:setup()
 ruby << RUBY
-module NyaoMappings
-  def self.array_of_nums(str)           = str.split(' ').map(&:to_i).inspect
-  def self.array_of_strings(str)        = str.split(' ').inspect
-  def self.comma_separated_strings(str) = str.split(' ').map(&:inspect).join(', ')
-  def self.comma_separated_symbols(str) = str.split(' ').map{ ':' + _1.to_s }.join(', ')
+module Nyao図
+  def self.数の集(str)   = str.split(' ').map(&:to_i).inspect
+  def self.糸の集(str)   = str.split(' ').inspect
+  def self.、間の糸(str) = str.split(' ').map(&:inspect).join(', ')
+  def self.、間の標(str) = str.split(' ').map{ ':' + _1.to_s }.join(', ')
 end
 
-$enter_equipment = NyaoEquip.new
-$enter_equipment << (NyaoEquip::Equipment.new 'source vim', -> { Ex.source Ev.expand('%') })
-$enter_equipment << (NyaoEquip::Equipment.new 'run current file in ruby', -> { Vim.command "!ruby %" })
-$enter_equipment << (NyaoEquip::Equipment.new 'run macro', -> { Ex.normal! "@q" })
-$enter_equipment.equip 'source vim'
+C選   = Selection
+C選.alias_method :全変, :replace_all
+
+C観選 = VisualSelection
+C動選 = MotionSelection
+
+$cr装 = Nyao装.new
+$cr装 << (Nyao装::C服.new 'source vim', -> { Ex.source Ev.expand('%') })
+$cr装 << (Nyao装::C服.new 'run ruby',   -> { Vim.command "!ruby %" })
+$cr装 << (Nyao装::C服.new 'run macro',  -> { Ex.normal! "@q" })
+$cr装.備わる 'source vim'
 
 RUBY
 endfu
 
 call s:setup()
 
-vno ,ra :ruby VisualSelection.new.replace_all { NyaoMappings.array_of_strings _1 }<CR>
-nno ,ra :<C-u>let &opfunc='{ t -> rubyeval("MotionSelection.new(Var[''t'']).replace_all { NyaoMappings.array_of_strings _1 }") }'<CR>g@
+" preserve regular replacement so we don't have to chain ,r at the start of every command
+nno rr r
 
-vno ,rs :ruby VisualSelection.new.replace_all { NyaoMappings.comma_separated_strings _1 }<CR>
-nno ,rs :<C-u>let &opfunc='{ t -> rubyeval("MotionSelection.new(Var[''t'']).replace_all { NyaoMappings.comma_separated_strings _1 }") }'<CR>g@
+vno ra :ruby C観選.new.全変 { Nyao図.糸の集 _1 }<CR>
+nno ra :<C-u>let &opfunc='{ t -> rubyeval("C動選.new(Var[''t'']).全変 { Nyao図.糸の集 _1 }") }'<CR>g@
 
-vno ,rn :ruby VisualSelection.new.replace_all { NyaoMappings.array_of_nums _1 }<CR>
-nno ,rn :<C-u>let &opfunc='{ t -> rubyeval("MotionSelection.new(Var[''t'']).replace_all { NyaoMappings.array_of_nums _1 }") }'<CR>g@
+vno rs :ruby C観選.new.全変 { Nyao図.、間の糸 _1 }<CR>
+nno rs :<C-u>let &opfunc='{ t -> rubyeval("C動選.new(Var[''t'']).全変 { Nyao図.、間の糸 _1 }") }'<CR>g@
 
-vno ,ry :ruby VisualSelection.new.replace_all { NyaoMappings.comma_separated_symbols _1 }<CR>
-nno ,ry :<C-u>let &opfunc='{ t -> rubyeval("MotionSelection.new(Var[''t'']).replace_all { NyaoMappings.comma_separated_symbols _1 }") }'<CR>g@
+vno rn :ruby C観選.new.全変 { Nyao図.数の集 _1 }<CR>
+nno rn :<C-u>let &opfunc='{ t -> rubyeval("C動選.new(Var[''t'']).全変 { Nyao図.数の集 _1 }") }'<CR>g@
 
-nno <CR> :ruby $enter_equipment.execute<CR>
-nno ,e :ruby $enter_equipment.fzf_equip<CR>
+vno ry :ruby C観選.new.全変 { Nyao図.、間の標 _1 }<CR>
+nno ry :<C-u>let &opfunc='{ t -> rubyeval("C動選.new(Var[''t'']).全変 { Nyao図.、間の標 _1 }") }'<CR>g@
+
+nno <CR> :ruby $cr装.行く<CR>
+nno ,e :ruby $cr装.靄備わる<CR>
