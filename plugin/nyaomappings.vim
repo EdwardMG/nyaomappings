@@ -8,6 +8,10 @@ module Nyao図
 
   def self.装v(鍵, 為) = Ex.vno "#{鍵} :ruby C観選.new.全変 { Nyao図.#{為} _1 }<CR>"
   def self.装n(鍵, 為) = Ex.nno "#{鍵} :<C-u>let &opfunc='{ t -> rubyeval(\"C動選.new(C化[''t'']).全変 { Nyao図.#{為} _1 }\") }'<CR>g@"
+  def self.装(鍵, 為)
+    Nyao図.装v(鍵, 為)
+    Nyao図.装n(鍵, 為)
+  end
 end
 
 C選 = Selection
@@ -25,18 +29,18 @@ $cr装.備わる 'source vim'
 
 Ex.nno 'rr r'
 
-Nyao図.装v('ra', :糸集)
-Nyao図.装n('ra', :糸集)
-Nyao図.装v('rn', :数集)
-Nyao図.装n('rn', :数集)
-Nyao図.装v('rs', :、の間糸)
-Nyao図.装n('rs', :、の間糸)
-Nyao図.装v('ry', :、の間標)
-Nyao図.装n('ry', :、の間標)
+装備図 = <<~MAPS
+ra  糸集
+rn  数集
+rs  、の間糸
+ry  、の間標
+MAPS
+
+装備図.split("\n").map { _1.split(' ') }.each {|(鍵, 為)| Nyao図.装(鍵, 為) }
+
+Ex.nno '<CR> :ruby $cr装.行く<CR>'
+Ex.nno ',e :ruby $cr装.靄備わる<CR>'
 RUBY
 endfu
 
 call s:setup()
-
-nno <CR> :ruby $cr装.行く<CR>
-nno ,e :ruby $cr装.靄備わる<CR>
