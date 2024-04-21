@@ -22,9 +22,9 @@ C動選 = MotionSelection
 C化   = Var
 
 $cr装 = Nyao装.new
-$cr装 << (Nyao装::C服.new 'source vim', -> { Ex.source   Ev.expand('%') })
-$cr装 << (Nyao装::C服.new 'run ruby',   -> { Vim.command "!ruby %"      })
-$cr装 << (Nyao装::C服.new 'run macro',  -> { Ex.normal!  "@q"           })
+$cr装 << (Nyao装::C服.new 'source vim', -> { Ex.source   "%"       })
+$cr装 << (Nyao装::C服.new 'run ruby',   -> { Vim.command "!ruby %" })
+$cr装 << (Nyao装::C服.new 'run macro',  -> { Ex.normal!  "@q"      })
 $cr装.備わる 'source vim'
 
 Ex.nno 'rr r'
@@ -44,3 +44,4 @@ RUBY
 endfu
 
 call s:setup()
+
