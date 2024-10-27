@@ -14,6 +14,15 @@ module Nyao図
   end
 end
 
+module Misc
+  def self.run_repeat_on_each
+    visual_selection = VisualSelection.new
+    (visual_selection.l.lnum..visual_selection.r.lnum).each do |lnum|
+      N["#{lnum}gg."]
+    end
+  end
+end
+
 C選 = Selection
 C選.alias_method :全変, :replace_all
 
@@ -24,8 +33,10 @@ C化   = Var
 $cr装 = Nyao装.new
 $cr装 << (Nyao装::C服.new 'source vim', -> { Ex.write;  Ex.source   "%"       })
 $cr装 << (Nyao装::C服.new 'run ruby',   -> { Ex.write;  Vim.command "!ruby %" })
+$cr装 << (Nyao装::C服.new 'run js',   -> { Ex.write;  Vim.command "!node %"   })
 $cr装 << (Nyao装::C服.new 'run macro',  -> { Ex.normal! "@q"                  })
-$cr装.備わる 'source vim'
+# $cr装.備わる 'source vim'
+$cr装.備わる 'source ruby'
 
 Ex.nno 'rr r'
 
@@ -45,3 +56,13 @@ endfu
 
 call s:setup()
 
+nno <nowait> <Space>1 :1wincmd w<CR>
+nno <nowait> <Space>2 :2wincmd w<CR>
+nno <nowait> <Space>3 :3wincmd w<CR>
+nno <nowait> <Space>4 :4wincmd w<CR>
+nno <nowait> <Space>5 :5wincmd w<CR>
+nno <nowait> <Space>6 :6wincmd w<CR>
+nno <nowait> <Space>7 :7wincmd w<CR>
+nno <nowait> <Space>8 :8wincmd w<CR>
+nno <nowait> <Space>9 :9wincmd w<CR>
+vno . :ruby Misc.run_repeat_on_each<CR>
