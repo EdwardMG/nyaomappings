@@ -17,8 +17,10 @@ end
 module Misc
   def self.run_repeat_on_each
     visual_selection = VisualSelection.new
+    cnum = Ev.col('.')
     (visual_selection.l.lnum..visual_selection.r.lnum).each do |lnum|
-      N["#{lnum}gg."]
+      Ev.cursor lnum, cnum
+      N["."] if Ev.getline('.').length >= cnum
     end
   end
 end
