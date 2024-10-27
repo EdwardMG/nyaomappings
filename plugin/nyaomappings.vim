@@ -16,11 +16,18 @@ end
 
 module Misc
   def self.run_repeat_on_each
-    visual_selection = VisualSelection.new
     cnum = Ev.col('.')
-    (visual_selection.l.lnum..visual_selection.r.lnum).each do |lnum|
+    VisualSelection.new.lnums.each do |lnum|
       Ev.cursor lnum, cnum
       N["."] if Ev.getline('.').length >= cnum
+    end
+  end
+
+  def self.run_macro_on_each reg='q'
+    cnum = Ev.col('.')
+    VisualSelection.new.lnums.each do |lnum|
+      Ev.cursor lnum, cnum
+      N["@#{reg}"] if Ev.getline('.').length >= cnum
     end
   end
 end
@@ -67,4 +74,11 @@ nno <nowait> <Space>6 :6wincmd w<CR>
 nno <nowait> <Space>7 :7wincmd w<CR>
 nno <nowait> <Space>8 :8wincmd w<CR>
 nno <nowait> <Space>9 :9wincmd w<CR>
+
 vno . :ruby Misc.run_repeat_on_each<CR>
+
+ruby << RUBY
+('a'..'z').each {|r| Ex.vno "@#{r} :ruby Misc.run_macro_on_each '#{r}'<CR>"}
+Ex.vno "@@ :ruby Misc.run_macro_on_each '@'<CR>"
+Ex.vno "<Space><Space> :ruby Misc.run_macro_on_each '@'<CR>"
+RUBY
