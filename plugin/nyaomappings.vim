@@ -82,3 +82,13 @@ ruby << RUBY
 Ex.vno "@@ :ruby Misc.run_macro_on_each '@'<CR>"
 Ex.vno "<Space><Space> :ruby Misc.run_macro_on_each '@'<CR>"
 RUBY
+
+fu! LastCommandOverMotionSelection(type)
+ruby MotionSelection.new(Var['a:type']).lnums.each { Ev.cursor(_1, 1); Ex.silent("normal! @:") }
+endfu
+nno rc :<C-u>set opfunc=LastCommandOverMotionSelection<CR>g@
+
+fu! MacroOverMotionSelection(type)
+ruby MotionSelection.new(Var['a:type']).lnums.each { Ev.cursor(_1, 1); N["@@"] }
+endfu
+nno r<space> :<C-u>set opfunc=MacroOverMotionSelection<CR>g@
