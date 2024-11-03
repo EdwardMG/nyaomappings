@@ -93,14 +93,14 @@ ruby MotionSelection.new(Var['a:type']).lnums.each { Ev.cursor(_1, 1); N["@@"] }
 endfu
 nno r<space> :<C-u>set opfunc=MacroOverMotionSelection<CR>g@
 
-ino 6 {
-ino 7 }
-ino 8 <BAR>
-ino 9 (
-ino 0 )
-ino \6 6
-ino \7 7
-ino \8 8
-ino \9 9
-ino \0 0
+" ino 6 {
+" ino 7 }
+" ino 8 <BAR>
+" ino 9 (
+" ino 0 )
+" ino \6 6
+" ino \7 7
+" ino \8 8
+" ino \9 9
+" ino \0 0
 
